@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import cmp_learning_bookpedia.composeapp.generated.resources.Res
 import cmp_learning_bookpedia.composeapp.generated.resources.book_error
 import coil3.compose.rememberAsyncImagePainter
-import com.itami.bookpedia.book_feature.domain.Book
+import com.itami.bookpedia.book_feature.domain.model.Book
 import org.jetbrains.compose.resources.painterResource
 import kotlin.math.round
 

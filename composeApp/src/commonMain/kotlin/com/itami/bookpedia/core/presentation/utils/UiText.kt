@@ -1,4 +1,4 @@
-package com.itami.bookpedia.core.presentation
+package com.itami.bookpedia.core.presentation.utils
 
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource

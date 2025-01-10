@@ -34,7 +34,7 @@ import cmp_learning_bookpedia.composeapp.generated.resources.favorites
 import cmp_learning_bookpedia.composeapp.generated.resources.no_favorite_books
 import cmp_learning_bookpedia.composeapp.generated.resources.no_search_results
 import cmp_learning_bookpedia.composeapp.generated.resources.search_results
-import com.itami.bookpedia.book_feature.domain.Book
+import com.itami.bookpedia.book_feature.domain.model.Book
 import com.itami.bookpedia.book_feature.presentation.book_list.components.BookList
 import com.itami.bookpedia.book_feature.presentation.book_list.components.BookSearchBar
 import org.jetbrains.compose.resources.stringResource

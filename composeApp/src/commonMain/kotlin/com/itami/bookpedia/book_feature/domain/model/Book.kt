@@ -1,4 +1,4 @@
-package com.itami.bookpedia.book_feature.domain
+package com.itami.bookpedia.book_feature.domain.model
 
 data class Book(
     val id: String,

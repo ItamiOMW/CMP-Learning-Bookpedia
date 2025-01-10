@@ -1,6 +1,6 @@
 package com.itami.bookpedia.book_feature.presentation.book_list
 
-import com.itami.bookpedia.book_feature.domain.Book
+import com.itami.bookpedia.book_feature.domain.model.Book
 
 sealed interface BookListEvent {
 
