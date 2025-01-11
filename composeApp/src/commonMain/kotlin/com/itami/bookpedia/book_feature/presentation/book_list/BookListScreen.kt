@@ -187,7 +187,7 @@ private fun BookListScreen(
                                         )
                                     }
 
-                                    state.searchResults.isNotEmpty() -> {
+                                    state.searchResults.isEmpty() -> {
                                         Text(
                                             text = stringResource(Res.string.no_search_results),
                                             style = MaterialTheme.typography.bodyLarge,
