@@ -1,5 +1,8 @@
 package com.itami.bookpedia.di
 
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import com.itami.bookpedia.book_feature.data.database.BookpediaDatabase
+import com.itami.bookpedia.book_feature.data.database.DatabaseFactory
 import com.itami.bookpedia.book_feature.data.network.KtorRemoteBookDataSource
 import com.itami.bookpedia.book_feature.data.network.RemoteBookDataSource
 import com.itami.bookpedia.book_feature.data.repository.DefaultBookRepository
@@ -18,6 +21,13 @@ expect val platformModule: Module
 
 val sharedModule = module {
     single { HttpClientFactory.create(get()) }
+
+    single {
+        get<DatabaseFactory>().create()
+            .setDriver(BundledSQLiteDriver())
+            .build()
+    }
+    single { get<BookpediaDatabase>().favoriteBookDao }
 
     singleOf(::DefaultBookRepository).bind<BookRepository>()
     singleOf(::KtorRemoteBookDataSource).bind<RemoteBookDataSource>()

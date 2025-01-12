@@ -11,6 +11,8 @@ import com.itami.bookpedia.core.domain.onSuccess
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -22,6 +24,8 @@ class BookDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
+    private val bookId = savedStateHandle.toRoute<Graph.BooksGraph.BookDetailsScreen>().bookId
+
     private val _events = Channel<BookDetailsEvent>()
     val events = _events.receiveAsFlow()
 
@@ -29,6 +33,7 @@ class BookDetailsViewModel(
     val state = _state
         .onStart {
             fetchBookDescription()
+            observeIsFavorite()
         }
         .stateIn(
             scope = viewModelScope,
@@ -45,7 +50,13 @@ class BookDetailsViewModel(
             }
 
             is BookDetailsAction.OnFavoriteClick -> {
-                // TODO change favorite
+                viewModelScope.launch {
+                    if (state.value.isFavorite) {
+                        bookRepository.deleteFromFavorites(bookId)
+                    } else {
+                        state.value.book?.let { bookRepository.addToFavorites(it) }
+                    }
+                }
             }
 
             is BookDetailsAction.OnSelectedBookChange -> {
@@ -56,10 +67,18 @@ class BookDetailsViewModel(
         }
     }
 
+    private fun observeIsFavorite() {
+        bookRepository
+            .observeIsFavorite(bookId)
+            .onEach { isFavorite ->
+                _state.update { it.copy(isFavorite = isFavorite) }
+            }
+            .launchIn(viewModelScope)
+    }
+
     private fun fetchBookDescription() {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            val bookId = savedStateHandle.toRoute<Graph.BooksGraph.BookDetailsScreen>().bookId
             bookRepository
                 .getBookDescription(bookId)
                 .onSuccess { desc ->

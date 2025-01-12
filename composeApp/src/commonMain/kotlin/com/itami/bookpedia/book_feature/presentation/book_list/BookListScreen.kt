@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
@@ -88,7 +89,8 @@ private fun BookListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary),
+            .background(MaterialTheme.colorScheme.primary)
+            .statusBarsPadding(),
     ) {
         BookSearchBar(
             searchQuery = state.searchQuery,
@@ -198,7 +200,7 @@ private fun BookListScreen(
 
                                     else -> {
                                         BookList(
-                                            modifier = Modifier.fillMaxWidth(),
+                                            modifier = Modifier.fillMaxSize(),
                                             books = state.searchResults,
                                             listState = searchResultsListState,
                                             onBookClick = { book ->
@@ -219,7 +221,7 @@ private fun BookListScreen(
                                     )
                                 } else {
                                     BookList(
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier.fillMaxSize(),
                                         books = state.favoriteBooks,
                                         listState = favoritesListState,
                                         onBookClick = { book ->

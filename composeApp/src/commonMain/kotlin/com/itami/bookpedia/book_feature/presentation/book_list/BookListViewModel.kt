@@ -37,6 +37,7 @@ class BookListViewModel(
             if (cachedBooks.isEmpty()) {
                 observeSearchQuery()
             }
+            observeFavoriteBooks()
         }
         .stateIn(
             scope = viewModelScope,
@@ -47,6 +48,8 @@ class BookListViewModel(
     private var cachedBooks: List<Book> = emptyList()
 
     private var searchJob: Job? = null
+
+    private var observeFavoritesJob: Job? = null
 
     fun onAction(action: BookListAction) {
         when (action) {
@@ -68,6 +71,16 @@ class BookListViewModel(
                 }
             }
         }
+    }
+
+    private fun observeFavoriteBooks() {
+        observeFavoritesJob?.cancel()
+        observeFavoritesJob = bookRepository
+            .observeFavoriteBooks()
+            .onEach { books ->
+                _state.update { it.copy(favoriteBooks = books) }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun observeSearchQuery() {
@@ -97,7 +110,6 @@ class BookListViewModel(
 
     private fun searchBooks(query: String) = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
-
         bookRepository
             .searchBooks(query)
             .onSuccess { searchResults ->
