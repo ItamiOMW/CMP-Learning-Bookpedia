@@ -17,7 +17,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,6 +38,7 @@ import com.itami.bookpedia.book_feature.presentation.book_details.components.Blu
 import com.itami.bookpedia.book_feature.presentation.book_details.components.BookChip
 import com.itami.bookpedia.book_feature.presentation.book_details.components.ChipSize
 import com.itami.bookpedia.book_feature.presentation.book_details.components.TitledContent
+import com.itami.bookpedia.core.presentation.components.PulseLoadingAnimation
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.math.round
@@ -176,8 +176,10 @@ private fun BookDetailsScreen(
                             )
                     )
                     if (state.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.padding(vertical = 24.dp)
+                        PulseLoadingAnimation(
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(vertical = 24.dp)
                         )
                     } else {
                         Text(

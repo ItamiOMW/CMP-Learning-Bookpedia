@@ -1,5 +1,6 @@
 package com.itami.bookpedia.book_feature.data.database
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -11,9 +12,8 @@ import com.itami.bookpedia.book_feature.data.database.entity.FavoriteBookEntity
     entities = [FavoriteBookEntity::class, ],
     version = 1,
 )
-@TypeConverters(
-    StringListTypeConverter::class,
-)
+@TypeConverters(StringListTypeConverter::class)
+@ConstructedBy(BookpediaDbConstructor::class)
 abstract class BookpediaDatabase : RoomDatabase() {
 
     abstract val favoriteBookDao: FavoriteBookDao

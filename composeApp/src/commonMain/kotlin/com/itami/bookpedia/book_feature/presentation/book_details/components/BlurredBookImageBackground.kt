@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,7 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
@@ -46,6 +46,7 @@ import cmp_learning_bookpedia.composeapp.generated.resources.go_back
 import cmp_learning_bookpedia.composeapp.generated.resources.mark_as_favorite
 import cmp_learning_bookpedia.composeapp.generated.resources.remove_from_favorites
 import coil3.compose.rememberAsyncImagePainter
+import com.itami.bookpedia.core.presentation.components.PulseLoadingAnimation
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -74,7 +75,6 @@ fun BlurredImageBackground(
         },
         onError = {
             it.result.throwable.printStackTrace()
-            imageLoadResult = Result.failure(it.result.throwable)
         }
     )
 
@@ -134,9 +134,6 @@ fun BlurredImageBackground(
                     .height(250.dp)
                     .aspectRatio(2.2f / 3f),
                 shape = RoundedCornerShape(8.dp),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = Color.Transparent
-                ),
                 elevation = CardDefaults.elevatedCardElevation(
                     defaultElevation = 15.dp
                 )
@@ -145,7 +142,17 @@ fun BlurredImageBackground(
                     targetState = imageLoadResult
                 ) { result ->
                     when (result) {
-                        null -> CircularProgressIndicator()
+                        null -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                PulseLoadingAnimation(
+                                    modifier = Modifier.size(60.dp)
+                                )
+                            }
+                        }
+
                         else -> {
                             Box {
                                 Image(
@@ -171,7 +178,8 @@ fun BlurredImageBackground(
                                         .background(
                                             brush = Brush.radialGradient(
                                                 colors = listOf(
-                                                    MaterialTheme.colorScheme.secondary, Color.Transparent
+                                                    MaterialTheme.colorScheme.secondary,
+                                                    Color.Transparent
                                                 ),
                                                 radius = 70f
                                             ),

@@ -74,10 +74,6 @@ private fun BookListScreen(
 
     val pagerState = rememberPagerState { 2 }
 
-    LaunchedEffect(state.searchQuery) {
-        searchResultsListState.animateScrollToItem(index = 0)
-    }
-
     LaunchedEffect(state.selectedTabIndex) {
         pagerState.animateScrollToPage(state.selectedTabIndex)
     }
@@ -91,6 +87,7 @@ private fun BookListScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
             .statusBarsPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BookSearchBar(
             searchQuery = state.searchQuery,

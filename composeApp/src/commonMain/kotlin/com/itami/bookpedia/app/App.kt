@@ -1,5 +1,7 @@
 package com.itami.bookpedia.app
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,7 +40,10 @@ fun App() {
             navigation<Graph.BooksGraph>(
                 startDestination = Graph.BooksGraph.BooksListScreen,
             ) {
-                composable<Graph.BooksGraph.BooksListScreen> { navBackStackEntry ->
+                composable<Graph.BooksGraph.BooksListScreen>(
+                    exitTransition = { slideOutHorizontally() },
+                    popEnterTransition = { slideInHorizontally() }
+                ) { navBackStackEntry ->
                     val selectedBookViewModel = navBackStackEntry
                         .sharedKoinViewModel<SelectedBookViewModel>(navController)
                     val bookListViewModel = koinViewModel<BookListViewModel>()
@@ -55,7 +60,10 @@ fun App() {
                         }
                     )
                 }
-                composable<Graph.BooksGraph.BookDetailsScreen> { navBackStackEntry ->
+                composable<Graph.BooksGraph.BookDetailsScreen>(
+                    enterTransition = { slideInHorizontally { it } },
+                    exitTransition = { slideOutHorizontally { it } }
+                ) { navBackStackEntry ->
                     val selectedBookViewModel = navBackStackEntry
                         .sharedKoinViewModel<SelectedBookViewModel>(navController)
                     val selectedBook by selectedBookViewModel.selectedBook.collectAsStateWithLifecycle()
