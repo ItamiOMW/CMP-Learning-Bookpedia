@@ -41,7 +41,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun BookListScreenRoute(
+fun BookListScreenRoot(
     viewModel: BookListViewModel = koinViewModel(),
     onNavigateToBookDetails: (Book) -> Unit,
 ) {
@@ -107,7 +107,7 @@ private fun BookListScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(30.dp),
+            shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
             color = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.onBackground
         ) {

@@ -1,6 +1,7 @@
 package com.itami.bookpedia.book_feature.presentation.book_list.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -25,6 +26,7 @@ internal fun BookList(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(vertical = 20.dp),
         state = listState
     ) {
         items(items = books, key = { it.id }) { book ->
